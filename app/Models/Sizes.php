@@ -5,17 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Users extends Model
+class Sizes extends Model
 {
-
     use HasFactory;
-    protected $table = 'users';
+    protected $table = 'sizes';
     public $timestamps = false;
     public $incrementing = false;
 
     protected $fillable = [
-        'name', 'email', 'email_verified_at', 'password', 'remember_token',
-        'created_at', 'updated_at'
+        'code', 'size', 'abbrev'
     ];
-
 }

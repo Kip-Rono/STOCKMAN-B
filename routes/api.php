@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\Reusables\FetchAnyItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,11 @@ Stock Man API routes
 */
 //Login Routes
 Route::post('fetch_users', [UsersController::class, 'fetchUsers']);
+
+/*
+* *
+ * Fetch any item controller routes
+ *
+ * */
+//fetch all departments
+Route::get('fetch_departments', [FetchAnyItemController::class, 'fetchDepartments']);
