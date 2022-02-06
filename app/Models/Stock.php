@@ -13,6 +13,6 @@ class Stock extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'product_id', 'quantity', 'amount_paid', 'date_entered', 'id'
+        'product_id', 'quantity', 'amount_paid', 'date_entered', 'id', 'paid'
     ];
 }
