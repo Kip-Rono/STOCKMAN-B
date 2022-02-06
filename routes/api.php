@@ -52,3 +52,5 @@ Route::post('save_checkout_stock', [CheckoutInventoryController::class, 'saveChe
 
 /*Reports*/
 Route::get('fetch_reports_data', [ReportsController::class, 'fetchReportsData']);
+//daily report
+Route::get('generate_daily_report/{date}', [ReportsController::class, 'generateDailyReport']);
