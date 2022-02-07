@@ -29,20 +29,56 @@ class ReportsController extends Controller
         $department = Department::count();
         $users = Users::count();
 
+        $clothes_purchase_orders = Stock::select(DB::raw("sum(amount_paid) as purchase_orders"))
+            ->where('department', 1)
+            ->get();
+        $clothes_purchase_orders = (int)$clothes_purchase_orders[0]['purchase_orders'];
+
+        $food_purchase_orders = Stock::select(DB::raw("sum(amount_paid) as purchase_orders"))
+            ->where('department', 2)
+            ->get();
+        $food_purchase_orders = (int)$food_purchase_orders[0]['purchase_orders'];
+
+        $food_sales = Sales::select(DB::raw("sum(amount_paid) as amount_in_sales"))
+            ->where('department', 2)
+            ->get();
+        $food_sales = (int)$food_sales[0]['amount_in_sales'];
+
+
+        $clothes_sales = Sales::select(DB::raw("sum(amount_paid) as amount_in_sales"))
+            ->where('department', 1)
+            ->get();
+        $clothes_sales = (int)$clothes_sales[0]['amount_in_sales'];
+
         $profit = (int)$sales - $purchase_orders;
+        $clothes_profit = (int)$clothes_sales - $clothes_purchase_orders;
+        $food_profit = (int)$food_sales - $food_purchase_orders;
+
         $names = ['purchase_orders', 'sales'];
-        $prices = ['purchase_amount' => $purchase_orders,
+        $prices = [
+            'purchase_amount' => $purchase_orders,
             'sales' => $sales,
+            'food_purchase_amount' => $food_purchase_orders,
+            'clothes_purchase_amount' => $clothes_purchase_orders,
+            'food_sales' => $food_sales,
+            'clothes_sales' => $clothes_sales,
             'profit' => $profit,
             ];
-        $data = [
-            'prices' => $prices,
+        return [
+            'purchase_amount' => $purchase_orders,
+            'sales' => $sales,
+            'profit' => $profit,
+            'food_purchase_amount' => $food_purchase_orders,
+            'food_sales' => $food_sales,
+            'clothes_purchase_amount' => $clothes_purchase_orders,
+            'clothes_sales' => $clothes_sales,
+            'clothes_profit' => $clothes_profit,
+            'food_profit' => $food_profit,
             'suppliers' => $suppliers,
             'department' => $department,
             'users' => $users,
             'names' => $names,
         ];
-        return $data;
     }
 
     //daily report on certain date

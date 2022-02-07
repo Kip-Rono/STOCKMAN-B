@@ -37,8 +37,10 @@ Route::post('fetch_users', [UsersController::class, 'fetchUsers']);
 Route::get('fetch_departments', [FetchAnyItemController::class, 'fetchDepartments']);
 //fetch all departments
 Route::get('fetch_suppliers', [FetchAnyItemController::class, 'fetchSuppliers']);
+Route::get('fetch_food_suppliers', [FetchAnyItemController::class, 'fetchFoodSuppliers']);
 //fetch clothes size
 Route::get('fetch_sizes', [FetchAnyItemController::class, 'fetchSizes']);
+Route::get('fetch_food_types', [FetchAnyItemController::class, 'fetchFoodTypes']);
 
 //save inventory and return product ids
 Route::post('add_individual_product_to_cart', [StockInventoryController::class, 'addIndividualProductToCart']);

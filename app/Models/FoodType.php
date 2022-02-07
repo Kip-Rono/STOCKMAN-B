@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sales extends Model
+class FoodType extends Model
 {
     use HasFactory;
-    protected $table = 'sales';
+    protected $table = 'food_type';
     public $timestamps = false;
     public $incrementing = false;
 
     protected $fillable = [
-        'product_id', 'quantity', 'amount_paid', 'unit_price', 'date_entered', 'paid', 'department'
+        'code', 'type', 'abbrev', 'unit_price'
     ];
 }
