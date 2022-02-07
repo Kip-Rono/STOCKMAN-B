@@ -13,6 +13,6 @@ class Sizes extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'code', 'size', 'abbrev'
+        'code', 'size', 'abbrev', 'unit_price'
     ];
 }

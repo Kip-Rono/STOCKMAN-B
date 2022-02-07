@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FoodType;
 use App\Models\Sizes;
 use App\Models\Stock;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ class StockInventoryController extends Controller
         //return $request;
         $product_id_arr = $category_arr = $quantity_arr = $response_arr = array();
         $category = '';
+        $department  = $request->category;
         $response = new \stdClass();
         //generate product id
         $quantity = $request->quantity;
@@ -39,6 +41,7 @@ class StockInventoryController extends Controller
                     $response->quantity = $request->quantity;
                     $response->unit_price = $unit_price;
                     $response->amount = $amount;
+                    $response->department = $department;
                     break;
                 case '2':
                     $category = 'CTM';
@@ -56,6 +59,7 @@ class StockInventoryController extends Controller
                     $response->quantity = $request->quantity;
                     $response->unit_price = $unit_price;
                     $response->amount = $amount;
+                    $response->department = $department;
                     break;
                 case '3':
                     $category = 'CTL';
@@ -73,6 +77,7 @@ class StockInventoryController extends Controller
                     $response->quantity = $request->quantity;
                     $response->unit_price = $unit_price;
                     $response->amount = $amount;
+                    $response->department = $department;
                     break;
                 case '4':
                     $category = 'CTX';
@@ -90,6 +95,67 @@ class StockInventoryController extends Controller
                     $response->quantity = $request->quantity;
                     $response->unit_price = $unit_price;
                     $response->amount = $amount;
+                    $response->department = $department;
+                    break;
+                default:
+                    break;
+            }
+        } elseif ($request->category == 2) {
+            switch ($request->type) {
+                //append category, size and number to get product id
+                case '1':
+                    $category = 'FDF';
+                    $unit_price = FoodType::select('unit_price')
+                        ->where('code', $request->type)
+                        ->get();
+                    $unit_price = $unit_price[0]['unit_price'];
+                    $amount = $unit_price * (int)$request->quantity;
+
+                    for ($i = 1; $i <= $request->quantity; $i++) {
+                        $product_id = 'FD' . 'F' . $i;
+                        array_push($product_id_arr, $product_id);
+                    }
+                    $response->category = $category;
+                    $response->quantity = $request->quantity;
+                    $response->unit_price = $unit_price;
+                    $response->amount = $amount;
+                    $response->department = $department;
+                    break;
+                case '2':
+                    $category = 'FDM';
+                    $unit_price = FoodType::select('unit_price')
+                        ->where('code', $request->type)
+                        ->get();
+                    $unit_price = $unit_price[0]['unit_price'];
+                    $amount = $unit_price * (int)$request->quantity;
+
+                    for ($i = 1; $i <= $request->quantity; $i++) {
+                        $product_id = 'FD' . 'M' . $i;
+                        array_push($product_id_arr, $product_id);
+                    }
+                    $response->category = $category;
+                    $response->quantity = $request->quantity;
+                    $response->unit_price = $unit_price;
+                    $response->amount = $amount;
+                    $response->department = $department;
+                    break;
+                case '3':
+                    $category = 'FDC';
+                    $unit_price = FoodType::select('unit_price')
+                        ->where('code', $request->type)
+                        ->get();
+                    $unit_price = $unit_price[0]['unit_price'];
+                    $amount = $unit_price * (int)$request->quantity;
+
+                    for ($i = 1; $i <= $request->quantity; $i++) {
+                        $product_id = 'FD' . 'C' . $i;
+                        array_push($product_id_arr, $product_id);
+                    }
+                    $response->category = $category;
+                    $response->quantity = $request->quantity;
+                    $response->unit_price = $unit_price;
+                    $response->amount = $amount;
+                    $response->department = $department;
                     break;
                 default:
                     break;
@@ -103,33 +169,57 @@ class StockInventoryController extends Controller
         ];
     }
 
-    public function saveSubmitStockInventory(Request $request){
+    public function saveSubmitStockInventory(Request $request)
+    {
         //return $request;
 
         $response = array();
 
-        try {
+       // try {
             //save in tables stock fo stock ordered
-            for ($i = 0; $i < count($request->category); $i++){
-                $getId = DB::table('stock')->first();
-                $getfirst = empty($getId)? 0 : $getId->id;
+            for ($i = 0; $i < count($request->category); $i++) {
+                switch ($request->department[$i]) {
+                    case '1':
+                        $getId = DB::table('stock')->first();
+                        $getfirst = empty($getId) ? 0 : $getId->id;
 
-                //array_push($response, $getfirst);
+                        //array_push($response, $getfirst);
 //            return $getfirst;
-                //array_push($response,  $id[0]['max_id']);
-                Stock::create([
-                    'product_id' => $request->category[$i],
-                    'quantity' => $request->quantity[$i],
-                    'amount_paid' => $request->amount[$i],
-                    'date_entered' => today(),
-                ]);
+                        //array_push($response,  $id[0]['max_id']);
+                        Stock::create([
+                            'product_id' => $request->category[$i],
+                            'quantity' => $request->quantity[$i],
+                            'amount_paid' => $request->amount[$i],
+                            'date_entered' => today(),
+                            'department' => 1
+                        ]);
+                        break;
+                    case '2':
+                        $getId = DB::table('stock')->first();
+                        $getfirst = empty($getId) ? 0 : $getId->id;
+
+                        //array_push($response, $getfirst);
+//            return $getfirst;
+                        //array_push($response,  $id[0]['max_id']);
+                        Stock::create([
+                            'product_id' => $request->category[$i],
+                            'quantity' => $request->quantity[$i],
+                            'amount_paid' => $request->amount[$i],
+                            'date_entered' => today(),
+                            'department' => 2
+                        ]);
+
+                        break;
+                }
             }
-            return ['message' => 'Stock Inventory Add Success.'];
-        }catch (\Exception $e) {
-            return ['message' => 'Error Saving'];
-            //array_push($response, $e->getMessage());
-        }
-        return $response;
+            //array_push($response, 'Stock Inventory Add Success.');
+            //return ['message' => $response];
+
+//        } catch (\Exception $e) {
+//            //return ['message' => 'Error Saving'];
+//            array_push($response, $e->getMessage());
+//        }
+        return ['message' => 'Stock Add Successs'];
 
     }
 }
