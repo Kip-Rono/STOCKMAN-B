@@ -12,7 +12,9 @@ class UsersController extends Controller
     {
         $password = hash('MD5',$request->password);
 
-        $user = Users::where('name', $request->name)->where('password', $password)->get();
+        $user = Users::where('name', $request->name)
+            ->where('password', $password)
+            ->get();
 
         return $user;
     }
