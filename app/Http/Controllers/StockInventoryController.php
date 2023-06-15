@@ -175,7 +175,7 @@ class StockInventoryController extends Controller
 
         $response = array();
 
-       // try {
+        try {
             //save in tables stock fo stock ordered
             for ($i = 0; $i < count($request->category); $i++) {
                 Stock::create([
@@ -220,14 +220,11 @@ class StockInventoryController extends Controller
                         break;
                 }*/
             }
-            //array_push($response, 'Stock Inventory Add Success.');
-            //return ['message' => $response];
 
-//        } catch (\Exception $e) {
-//            //return ['message' => 'Error Saving'];
+            return ['message' => 'Stock Item(s) Added Successfully'];
+        } catch (\Exception $e) {
+            return ['message' => 'Sorry. Error Adding Items to Stock'];
 //            array_push($response, $e->getMessage());
-//        }
-        return ['message' => 'Stock Item(s) Added Successfully'];
-
+        }
     }
 }

@@ -173,7 +173,7 @@ class CheckoutInventoryController extends Controller
         //return $request;
         $response = array();
 
-       // try {
+        try {
             //save in tables stock fo stock ordered
             for ($i = 0; $i < count($request->category); $i++) {
                 Sales::create([
@@ -204,7 +204,7 @@ class CheckoutInventoryController extends Controller
                 }*/
 
             }
-            //return ['message' => 'Success Checkout !'];
+            return ['message' => 'Products Successfully Removed from Stock'];
             /*Stock::where(
                 [
                     //'product_id' => $request->category[$i],
@@ -213,12 +213,10 @@ class CheckoutInventoryController extends Controller
             )->update([
                 'paid' => 1
             ]);*/
-      //  }
-//        catch (\Exception $e) {
-//            return ['message' => 'Error Checking Out Products'];
-//            //array_push($response, $e->getMessage());
-//        }
-
-        return ['message' => 'Products Successfully Removed from Stock'];
+        }
+        catch (\Exception $e) {
+            return ['message' => 'Sorry. Error Removing Products from Stock'];
+            //array_push($response, $e->getMessage());
+        }
     }
 }
