@@ -10,7 +10,8 @@ class UsersController extends Controller
     //fetch users
     public function fetchUsers(Request $request)
     {
-        $password = hash('MD5',$request->password);
+        //$password = hash('MD5',$request->password); TODO - will try sha256
+        $password = $request->password;
 
         $user = Users::where('name', $request->name)
             ->where('password', $password)

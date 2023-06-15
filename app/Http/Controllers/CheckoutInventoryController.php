@@ -176,17 +176,19 @@ class CheckoutInventoryController extends Controller
        // try {
             //save in tables stock fo stock ordered
             for ($i = 0; $i < count($request->category); $i++) {
-                switch ($request->department[$i]){
+                Sales::create([
+                    'product_id' => $request->category[$i],
+                    'quantity' => $request->quantity[$i],
+                    'amount_paid' => $request->amount[$i],
+                    'unit_price' => $request->unit_price[$i],
+                    'date_entered' => today(),
+                    'paid' => 1,
+                    'department' => $request->department[$i]
+                ]);
+
+                /*switch ($request->department[$i]){
                     case '1':
-                        Sales::create([
-                            'product_id' => $request->category[$i],
-                            'quantity' => $request->quantity[$i],
-                            'amount_paid' => $request->amount[$i],
-                            'unit_price' => $request->unit_price[$i],
-                            'date_entered' => today(),
-                            'paid' => 1,
-                            'department' => 1
-                        ]);
+
                         break;
                     case '2':
                         Sales::create([
@@ -199,7 +201,7 @@ class CheckoutInventoryController extends Controller
                             'department' => 2
                         ]);
                         break;
-                }
+                }*/
 
             }
             //return ['message' => 'Success Checkout !'];
@@ -217,6 +219,6 @@ class CheckoutInventoryController extends Controller
 //            //array_push($response, $e->getMessage());
 //        }
 
-        return ['message' => 'Success '];
+        return ['message' => 'Products Successfully Removed from Stock'];
     }
 }

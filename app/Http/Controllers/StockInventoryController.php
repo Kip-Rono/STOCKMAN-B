@@ -178,7 +178,15 @@ class StockInventoryController extends Controller
        // try {
             //save in tables stock fo stock ordered
             for ($i = 0; $i < count($request->category); $i++) {
-                switch ($request->department[$i]) {
+                Stock::create([
+                    'product_id' => $request->category[$i],
+                    'quantity' => $request->quantity[$i],
+                    'amount_paid' => $request->amount[$i],
+                    'date_entered' => today(),
+                    'department' => $request->department[$i]
+                ]);
+
+                /*switch ($request->department[$i]) {
                     case '1':
                         $getId = DB::table('stock')->first();
                         $getfirst = empty($getId) ? 0 : $getId->id;
@@ -210,7 +218,7 @@ class StockInventoryController extends Controller
                         ]);
 
                         break;
-                }
+                }*/
             }
             //array_push($response, 'Stock Inventory Add Success.');
             //return ['message' => $response];
@@ -219,7 +227,7 @@ class StockInventoryController extends Controller
 //            //return ['message' => 'Error Saving'];
 //            array_push($response, $e->getMessage());
 //        }
-        return ['message' => 'Stock Add Successs'];
+        return ['message' => 'Stock Item(s) Added Successfully'];
 
     }
 }
